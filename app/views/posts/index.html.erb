@@ -1,7 +1,16 @@
-<h2>Lastest posts:</h2>
+<h1>Clubhouse</h1>
 <body>
+<%if user_signed_in?%>
+<%= link_to 'Create new post', new_post_url%>
+  <%= link_to 'Sign Out', destroy_user_session_url, method: :delete%>
+<%else%>
+  <%= link_to 'Sign In', new_user_session_url%>
+  <%= link_to 'Sign Up', new_user_registration_url%>
+<%end%>
 
+<h2>Latest Posts:</h2>
 <%@posts.each do |post|%>
+  <p><%=User.find(post.user_id).username%></p>
   <p><%=post.body%></p>
 <%end%>
 </body>
