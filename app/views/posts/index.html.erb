@@ -3,14 +3,27 @@
 <%if user_signed_in?%>
 <%= link_to 'Create new post', new_post_url%>
   <%= link_to 'Sign Out', destroy_user_session_url, method: :delete%>
+  <p>Logged in as: <%= current_user.username%></p>
 <%else%>
   <%= link_to 'Sign In', new_user_session_url%>
   <%= link_to 'Sign Up', new_user_registration_url%>
 <%end%>
 
 <h2>Latest Posts:</h2>
-<%@posts.each do |post|%>
-  <p><%=User.find(post.user_id).username%></p>
+<%@posts.reverse.each do |post|%>
+  <%if user_signed_in?%>
+    <p>Author: <%=User.find(post.user_id).username%></p>
+    <%else%>
+    <p>Sign in to see the author of this post</p>
+  <%end%>
+
   <p><%=post.body%></p>
+
+  <%if user_signed_in?%>
+    <%if post.user_id == current_user.id%>
+      <%=link_to 'Delete Post', post, method: :delete%>
+        <br>
+  <%end%><%end%>
+  <br>
 <%end%>
 </body>

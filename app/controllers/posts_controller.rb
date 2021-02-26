@@ -9,6 +9,12 @@ class PostsController < ApplicationController
     @post = current_user.posts.build
   end
 
+ def destroy
+  @post = Post.find(params[:id])
+  @post.destroy
+  redirect_to action: 'index'
+ end
+
   def create
     @post = current_user.posts.build(post_params)
 
